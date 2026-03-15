@@ -9,12 +9,14 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { FindProjectsDto } from './dto/find-projects.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { RolesGuard } from '../../identity/rbac/roles.guard';
 import { PermissionsGuard } from '../../identity/rbac/permissions.guard';
@@ -32,8 +34,8 @@ export class ProjectController {
 
   @Get()
   @RequirePermissions('project:read')
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query() dto: FindProjectsDto) {
+    return this.projectService.findAll(dto);
   }
 
   @Get(':id')
